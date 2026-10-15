@@ -1,0 +1,15 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="icon/direct" clip-path="url(#clip0_0_179)">
+<g id="Rectangle">
+</g>
+<g id="Icon">
+<path id="oval" opacity="0.5" fill-rule="evenodd" clip-rule="evenodd" d="M12 19C15.866 19 19 15.866 19 12C19 8.13401 15.866 5 12 5C8.13401 5 5 8.13401 5 12C5 15.866 8.13401 19 12 19Z" fill="#E32444"/>
+<path id="oval_2" fill-rule="evenodd" clip-rule="evenodd" d="M12 16.9C14.7062 16.9 16.9 14.7062 16.9 12C16.9 9.2938 14.7062 7.1 12 7.1C9.2938 7.1 7.1 9.2938 7.1 12C7.1 14.7062 9.2938 16.9 12 16.9Z" fill="#E32444"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_0_179">
+<rect width="24" height="24" fill="white"/>
+</clipPath>
+</defs>
+</svg>

@@ -1,0 +1,19 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="icon/channelsInactive" clip-path="url(#clip0_0_236)">
+<g id="Rectangle">
+</g>
+<g id="radio">
+<mask id="mask0_0_236" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="32" height="32">
+<rect id="Bounding box" width="32" height="32" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_0_236)">
+<path id="radio_2" d="M3.33337 28.6666V9.2513L20.5333 2.25647L21.1948 3.94363L9.55373 8.6667H28.6666V28.6666H3.33337ZM5.33333 26.6667H26.6667V17.0256H5.33333V26.6667ZM10.5641 24.923C11.4205 24.923 12.1474 24.6243 12.7449 24.0269C13.3423 23.4295 13.641 22.7025 13.641 21.8461C13.641 20.9897 13.3423 20.2628 12.7449 19.6654C12.1474 19.068 11.4205 18.7692 10.5641 18.7692C9.7077 18.7692 8.98078 19.068 8.38333 19.6654C7.78591 20.2628 7.4872 20.9897 7.4872 21.8461C7.4872 22.7025 7.78591 23.4295 8.38333 24.0269C8.98078 24.6243 9.7077 24.923 10.5641 24.923ZM5.33333 15.0257H21.6667V12.4616H23.6666V15.0257H26.6667V10.6667H5.33333V15.0257Z" fill="#303236"/>
+</g>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_0_236">
+<rect width="32" height="32" fill="white"/>
+</clipPath>
+</defs>
+</svg>

@@ -1,0 +1,829 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>AI Poddsida</title>
+<style>:root{
+  --surface:#fff;--fill:#f1f2f4;--fill2:#e2e5e9;--accent:#3c4c69;--on-accent:#f7f7f8;
+  --fg:#050505;--fg2:#303236;--fg3:#494b50;--border:#d5d7dd;--highlight:#e7e655;--player:#303d54;
+  --lab:"SR Lab","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --horner:"SR Horner",Georgia,"Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:#dfe1e5;-webkit-text-size-adjust:100%}
+body{font-family:var(--lab);color:var(--fg);background:#dfe1e5;min-height:100vh;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}
+img{display:block;max-width:none}
+button,a{font:inherit;color:inherit;border:0;background:none;cursor:pointer;text-decoration:none}
+p{margin:0}
+.device{position:relative;width:360px;height:min(700px,100vh);overflow:hidden}
+.phone{position:relative;width:360px;height:100%;background:var(--surface);overflow-x:hidden;overflow-y:auto;scrollbar-width:none;box-shadow:0 0 0 1px rgba(0,0,0,.06)}
+.phone::-webkit-scrollbar{display:none}
+.ic24{width:24px;height:24px;flex:none}
+.fill-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+/* header */
+.page-header{position:sticky;top:0;z-index:20;background:var(--surface)}
+.status{height:44px;display:flex;align-items:center;justify-content:space-between;padding:13px 24px 13px 40px;font:590 15px/normal -apple-system,"SF Pro",system-ui,sans-serif;letter-spacing:-.165px}
+.status-r{display:flex;gap:5px;align-items:flex-start}
+.sig{width:17.308px;height:11.538px}.wifi{width:16.346px;height:11.379px}
+.battery{position:relative;width:24.4px;height:13px}
+.b-out{position:absolute;left:0;top:0;width:22px;height:13px}
+.b-fill{position:absolute;left:0;top:0;width:16px;height:13px;background:var(--fg);border-radius:4px 0 0 4px}
+.b-end{position:absolute;left:23px;top:4.8px;width:1.347px;height:4.058px}
+.battery b{position:absolute;left:4px;top:0;width:18px;height:13px;color:#fff;font:700 10px/13px -apple-system,system-ui,sans-serif;text-align:center;letter-spacing:.06px}
+.topbar{padding:0 0 8px;overflow:hidden}
+.tabs{display:flex;gap:8px;padding-left:16px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.chip{height:40px;padding:4px 0;flex:none;position:relative;font:500 12px/14px var(--lab);color:var(--accent);white-space:nowrap}
+.chip{display:flex;align-items:center}
+.chip{background:none}
+.chip{--p:0}
+.chip{}
+.chip{border:0}
+.chip{}
+.chip:before{content:"";position:absolute;left:0;right:0;top:4px;bottom:4px;border-radius:56px;border:1px solid var(--border);transition:background .15s}
+.chip{padding:4px 16px}
+.chip.active{color:var(--on-accent)}
+.chip.active:before{background:var(--accent);border-color:var(--accent)}
+.chip:before{z-index:-1}
+.chip{isolation:isolate}
+
+/* text */
+.title-l{font:400 16px/20px var(--lab);color:var(--fg)}
+.title-l b{font-weight:700}
+.title-xl{font:400 20px/24px var(--lab);letter-spacing:-.04px;color:var(--fg)}
+.sub-xs{font:500 12px/16px var(--lab);color:var(--fg3)}
+.headline-xs{font:500 16px/20px var(--lab);color:var(--fg)}
+.headline-s{font:600 16px/20px var(--lab);color:var(--fg)}
+.headline-m-card{font:600 20px/24px var(--lab);color:var(--fg)}
+.display-m{font:700 24px/28px var(--horner);color:var(--fg)}
+.eyebrow{font:600 12px/14px var(--lab);text-transform:uppercase;color:var(--accent);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.desc{font:400 14px/18px var(--lab);color:var(--fg3);overflow:hidden}
+.clamp2{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.clamp3{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
+
+/* layout */
+.content{padding-top:8px;padding-bottom:8px}
+.s{margin-top:40px}.s.first{margin-top:16px}.s.big{margin-top:56px}
+.sec{display:flex;flex-direction:column;align-items:center}
+.sec.gap8{gap:8px;align-items:stretch}.sec.gap16{gap:16px;align-items:stretch}
+.sec>.sec-heading,.sec-heading{align-self:stretch}
+.sec-heading{display:flex;align-items:center;padding:8px 16px 0}
+.sec-heading.img-head{gap:10px;height:56px}
+.sec-heading.vid-head{padding-top:8px}
+.sec.gap8>.sec-heading.img-head,.sec.gap16>.sec-heading.img-head{height:auto;padding:8px 16px 0 16px}
+.sec>.sec-heading.img-head{height:56px}
+.sec.gap8>.sec-heading.img-head{height:56px}
+.sec.gap16>.sec-heading.img-head{height:56px}
+.hc{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
+.art48{width:48px;height:48px;object-fit:cover;flex:none}
+.stack{display:flex;flex-direction:column;gap:24px;align-items:center;margin-top:8px}
+.sub-sec{display:flex;flex-direction:column;gap:8px;align-items:center;width:100%}
+.sub-sec .stack{margin-top:0}
+#personal{gap:24px}
+#personal .sub-sec{align-self:stretch}
+
+/* cards */
+.card{align-self:center;width:calc(100% - 32px);background:var(--fill);border-radius:0 24px 0 24px;padding:12px 12px 4px;display:flex;flex-direction:column;gap:8px;position:relative}
+.card-head{display:flex;gap:8px;align-items:center}
+.cover88{width:88px;height:88px;border-radius:8px;object-fit:cover;flex:none}
+.head-content{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;justify-content:center}
+.series{display:flex;gap:4px;align-items:center}
+.series p{flex:1;min-width:0;font:400 14px/18px var(--lab);color:var(--fg3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag{display:flex;gap:4px;align-items:center;height:32px}
+.tag p{font:500 12px/14px var(--lab);color:var(--accent);white-space:nowrap}
+.actions{display:flex;align-items:center}
+.actions.between{justify-content:space-between}
+.actions.gap16{gap:16px}
+.card.promo .actions{margin-top:0}
+.btn-wrap{min-height:48px;min-width:48px;display:flex;flex-direction:column;justify-content:center}
+.btn-wrap.grow{flex:1;min-width:0}
+.play-pill{height:32px;display:flex;align-items:center;gap:4px;padding:0 16px 0 8px;border-radius:64px;background:var(--accent);color:var(--on-accent);font:500 12px/14px var(--lab);transition:transform .1s}
+.play-pill span{white-space:nowrap}
+.secondary{display:flex}
+.icon-btn{width:56px;height:56px;border-radius:56px;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.icon-btn:active{background:var(--fill2)}
+.pill-btn{height:40px;width:100%;border-radius:56px;display:flex;align-items:center;justify-content:center;padding:0 24px;font:500 14px/18px var(--lab);transition:transform .1s,background .15s}
+.pill-btn.solid{background:var(--accent);color:var(--on-accent)}
+.pill-btn.outline{border:1px solid var(--border);padding:0 16px;color:var(--accent)}
+.pill-btn.outline .pb-text{padding:0 8px 0 4px}
+.pill-btn.solid .pb-text.pl4{padding:0 8px 0 4px}
+.pill-btn.solid:has(img){padding:0 16px}
+.pill-btn.outline.on{background:var(--fill2)}
+.pill-btn:active,.play-pill:active{transform:scale(.97)}
+.pill-btn.big{width:auto;height:48px;padding:12px 32px;font:500 16px/20px var(--lab)}
+
+/* promo */
+.card.promo{padding:0 12px 16px;gap:8px}
+.promo-head{position:relative;width:100%;display:flex;flex-direction:column;gap:16px}
+.promo-bg{height:280px;margin:0 -12px;border-top-right-radius:24px}
+.promo-title{display:flex;flex-direction:column;gap:2px}
+.promo-cover{position:absolute;left:50%;margin-left:-76px;width:152px;height:150px;border-radius:8px;box-shadow:0 4px 4px rgba(0,0,0,.1)}
+.promo-cover .clip{position:absolute;inset:0;overflow:hidden;border-radius:8px}
+.promo-cover .crop1{position:absolute;height:117.14%;left:-38.89%;top:-14.07%;width:177.78%}
+.promo-cover .crop2{position:absolute;height:101.23%;left:0;top:-.93%;width:100%}
+.promo-cover .fill-img{border-radius:8px}
+.promo-caption{position:absolute;left:50%;transform:translateX(-50%);top:219px;display:flex;flex-direction:column;gap:4px;align-items:center}
+.promo-caption div{background:var(--accent);padding:0 2px}
+.promo-caption span{display:block;font:italic 600 16px/20px var(--lab);color:var(--on-accent);white-space:nowrap}
+.upcoming{position:absolute;left:-12px;top:0;background:#000;padding:8px 12px}
+.upcoming span{display:block;font:italic 500 20px/22px var(--horner);color:var(--on-accent);text-align:center}
+
+/* shortcuts */
+.shortcuts{display:flex;flex-direction:column;gap:12px;width:100%}
+.sc-row{display:flex;gap:12px;padding:0 16px}
+.shortcut{flex:1;min-width:0;height:48px;display:flex;align-items:center;gap:8px;padding-right:8px;background:var(--fill);border-radius:0 8px 0 8px;position:relative;text-align:left;font:500 14px/18px var(--lab);color:var(--fg);transition:background .15s}
+.shortcut:active{background:var(--fill2)}
+.shortcut span{flex:1;min-width:0;overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2}
+.sc-img{width:48px;height:48px;border-radius:0 8px 0 8px;object-fit:cover;flex:none}
+.plupp{position:absolute;left:-6px;top:-6px;width:12px;height:12px}
+.plupp img{width:12px;height:12px}
+.prompt{align-self:center;width:calc(100% - 32px);height:48px;background:var(--fill2);border-radius:32px;padding:8px 16px;display:flex;align-items:center;gap:8px;font:500 14px/18px var(--lab);color:var(--fg2);text-align:left}
+.prompt span{flex:1}
+.badge{font:600 12px/14px var(--lab);font-style:normal;text-transform:uppercase;background:var(--highlight);color:var(--fg);height:18px;display:flex;align-items:center;padding:0 4px;border-radius:4px}
+
+/* carousels */
+.carousel{display:flex;gap:8px;padding:0 16px;scroll-padding-left:16px;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.carousel::-webkit-scrollbar{display:none}
+.carousel>*{scroll-snap-align:start;flex:none}
+.carousel:after{content:"";flex:none;width:8px}
+.show{width:160px;display:flex;flex-direction:column;gap:8px}
+.cover160{width:160px;height:160px;border-radius:8px;object-fit:cover}
+.video{position:relative;border-radius:8px;overflow:hidden;background:var(--fill2)}
+.p1-row{display:flex;gap:8px;align-items:flex-start;width:160px}
+.p1-row .headline-xs{flex:1;min-width:0}
+.p1-row .nowrap{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.heart{width:32px;height:32px;border-radius:56px;background:var(--fill2);display:flex;align-items:center;justify-content:center;flex:none}
+.p1-logo{width:48px;height:48px;border-radius:120px;background:#0167c6;overflow:hidden;flex:none;position:relative}
+.p1-logo img{position:absolute;left:25%;top:25%;width:50%;height:50%}
+.hist-art{width:48px;height:48px;background:var(--fill);border:1px solid var(--border);border-radius:4px;overflow:hidden;position:relative;flex:none}
+.hist-art img{position:absolute;width:41.47px;height:41.47px;left:18.6px;top:18.6px;border-radius:2px;transform:rotate(30deg);object-fit:cover}
+
+/* categories */
+.cats{padding:0;scroll-padding-left:0}
+.cat-grid{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-start;align-content:flex-start;width:1121px;height:104px;padding-left:16px}
+.cat{height:48px;display:flex;align-items:center;gap:8px;padding:8px 8px 8px 12px;background:var(--fill);border-radius:8px;overflow:hidden;font:500 12px/14px var(--lab);color:var(--fg);transition:background .15s}
+.cat:active{background:var(--fill2)}
+.cat.tall{height:56px}
+.cat-text{max-width:80px}.cat.tall .cat-text{max-width:88px}
+.cat-art{position:relative;width:36px;height:48px;flex:none}
+.cat.tall .cat-art{height:56px}
+.cat-rot{position:absolute;right:-17.64px;bottom:-12.64px;width:54.641px;height:54.641px;display:flex;align-items:center;justify-content:center}
+.cat.tall .cat-rot{bottom:-10.64px}
+.cat-rot img{width:40px;height:40px;object-fit:cover;transform:rotate(30deg)}
+
+/* footer */
+.app-footer{display:flex;flex-direction:column;align-items:center;gap:32px;padding:48px 16px;margin-top:8px;padding-bottom:200px;background:var(--surface)}
+.ft-info{text-align:center;font:400 14px/20px var(--lab);color:var(--fg2)}
+.ft-links{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:-16px}
+.ft-links a{display:flex;align-items:center;gap:4px;height:32px;font:400 14px/18px var(--lab);color:var(--fg)}
+.sr-logo{width:238px;height:40px}
+.copy{font:400 16px/22px var(--lab);color:var(--fg)}
+
+/* bottom */
+.bottom{position:sticky;bottom:0;margin-top:-152px;width:100%;height:152px;z-index:30;pointer-events:none}
+.bottom>*{pointer-events:auto}
+.mini{position:absolute;left:0;top:10px;width:100%;padding:0 16px;z-index:2;filter:drop-shadow(0 2px 6px rgba(0,0,0,.2))}
+.mini-bg{height:56px;border-radius:100px;background:var(--player);display:flex;align-items:center;gap:4px;padding:8px 8px 8px 16px;box-shadow:0 2px 8px rgba(0,0,0,.16)}
+.logo32{width:32px;height:32px;flex:none;margin-right:4px}
+.mini-labels{flex:1;min-width:0;display:flex;align-items:center;gap:4px}
+.mini-labels p{font:600 14px/18px var(--lab);color:var(--on-accent);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini-btn{width:48px;height:48px;display:flex;align-items:center;justify-content:center;position:relative;flex:none}
+.mini-btn .prog{position:absolute;left:8px;top:8px;width:32px;height:32px}
+.tabbar{position:absolute;left:0;top:16px;width:100%;height:136px;display:flex;align-items:flex-end;padding:8px 16px 24px;background:linear-gradient(to bottom,rgba(255,255,255,0),rgba(255,255,255,.8) 40%,rgba(255,255,255,.8) 70%,rgba(255,255,255,.8))}
+.tb-pill{flex:1;display:flex;align-items:center;height:54px;border-radius:296px;background:rgba(255,255,255,.88);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:0 2px 8px rgba(0,0,0,.16);position:relative;margin-bottom:0}
+.tb{flex:1;min-width:0;height:54px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 8px 7px;font:500 10px/12px var(--lab);color:var(--fg2);position:relative;text-align:center}
+.tb-ic,.tb-ic img{width:32px;height:32px;display:block}
+.tb.sel{font-weight:700;color:var(--accent)}
+.tb.sel:before{content:"";position:absolute;inset:0 1px 0 0;background:#ededed;border-radius:100px;z-index:-1}
+.tb-pill{isolation:isolate}
+
+/* hover/fokus: bilden krymper och transkribering visas */
+.promo-cover{transition:transform .7s cubic-bezier(.25,.8,.25,1)}
+.has-tr{outline:none}
+.has-tr.in-view .promo-cover{transform:translateY(-28px) scale(.8)}
+.transcript{position:absolute;left:4px;right:4px;top:195px;opacity:0;transform:translateY(8px);transition:opacity .55s ease,transform .7s cubic-bezier(.25,.8,.25,1);pointer-events:none;
+  height:44px}
+.tr-chunk{position:absolute;left:0;right:0;top:0;display:flex;flex-direction:column;gap:4px;align-items:center;opacity:0;transform:translateY(6px);filter:blur(3px);transition:opacity .7s ease,transform .8s cubic-bezier(.25,.8,.25,1),filter .7s ease}
+.tr-chunk.on{opacity:1;transform:none;filter:none}
+.tr-chunk>div:nth-child(2){transition:inherit;transition-delay:.12s}
+.tr-chunk.out{opacity:0;transform:translateY(-6px);filter:blur(3px);transition-duration:.45s}
+.tr-chunk div{background:var(--accent);padding:0 2px}
+.transcript span{display:block;font:italic 600 16px/20px var(--lab);color:var(--on-accent);white-space:nowrap}
+.has-tr.in-view .transcript{opacity:1;transform:none;transition-delay:.2s}
+@media (prefers-reduced-motion:reduce){.promo-cover,.transcript,.tr-chunk{transition:none}}
+
+.has-tr .promo-cover{width:180px;height:178px;margin-left:-90px;top:51px!important}
+
+/* Monarkerna-kortet: bildtext i viloläge, transkribering vid hover */
+.has-tr.has-cap .promo-cover{width:164px;height:162px;margin-left:-82px;top:47px!important}
+.has-tr.has-cap.in-view .promo-cover{transform:translateY(-16px) scale(.878)}
+.has-cap .promo-caption{transition:opacity .4s ease}
+.has-cap.in-view .promo-caption{opacity:0}
+
+/* uppspelning */
+.play-pill.loading,.play-pill-trailer.loading{opacity:.65}
+.toast{position:absolute;left:16px;right:16px;top:-40px;padding:10px 16px;border-radius:12px;background:var(--fg);color:var(--on-accent);font:500 12px/16px var(--lab);opacity:0;transform:translateY(6px);transition:opacity .3s,transform .3s;pointer-events:none;text-align:center;z-index:3}
+.toast.show{opacity:1;transform:none}
+
+/* Playing-läge */
+.eq{display:flex;align-items:center;justify-content:center;gap:3px;width:24px;height:24px;flex:none}
+.eq i{display:block;width:3px;height:6px;border-radius:2px;background:var(--on-accent);animation:eq 1.8s ease-in-out infinite}
+.eq i:nth-child(2){animation-duration:1.5s;animation-delay:-.6s}
+.eq i:nth-child(3){animation-duration:2.2s;animation-delay:-1.2s}
+@keyframes eq{0%,100%{height:7px}50%{height:14px}}
+.play-pill .pp{display:flex;align-items:center;gap:8px;margin-left:4px}
+.pbar{display:block;width:32px;height:4px;border-radius:2px;background:rgba(247,247,248,.3);overflow:hidden}
+.pbar i{display:block;width:45%;height:100%;border-radius:2px;background:var(--on-accent)}
+.play-pill-trailer .eq{margin-right:0}
+@media (prefers-reduced-motion:reduce){.eq i{animation:none;height:10px}}
+
+.swap>*{animation:swapin .5s ease both}
+.swap .pp>*{animation:swapin .6s .08s ease both}
+@keyframes swapin{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.swap>*,.swap .pp>*{animation:none}}
+
+/* feedback på sekundära knappar */
+.icon-btn{transition:background .2s ease,transform .15s ease}
+@media (hover:hover){.icon-btn:hover{background:var(--fill2)}}
+.icon-btn:active{background:#d5d7dd;transform:scale(.88)}
+.icon-btn.added{background:rgba(60,76,105,.1)}
+.icon-btn img.pop{animation:pop .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{0%{transform:scale(.4) rotate(-20deg);opacity:.4}60%{transform:scale(1.2) rotate(0)}100%{transform:scale(1);opacity:1}}
+.icon-btn.bump img{animation:bump .5s cubic-bezier(.3,1.5,.5,1)}
+@keyframes bump{0%{transform:translateX(-4px) scale(.9)}50%{transform:translateX(3px) scale(1.12)}100%{transform:none}}
+.pill-btn.outline img.pop{animation:pop .45s cubic-bezier(.3,1.6,.5,1)}
+.pill-btn.outline.added{background:var(--fill2)}
+@media (prefers-reduced-motion:reduce){.icon-btn img.pop,.icon-btn.bump img,.pill-btn.outline img.pop{animation:none}}
+
+/* feedback-cirkeln har samma storlek som playknappen (32 px), tryckytan är fortfarande 56 px */
+.icon-btn{position:relative}
+.icon-btn:before{content:"";position:absolute;left:50%;top:50%;width:32px;height:32px;margin:-16px 0 0 -16px;border-radius:50%;background:transparent;transition:background .2s ease,transform .15s ease}
+.icon-btn img{position:relative}
+.icon-btn:hover,.icon-btn:active,.icon-btn.added{background:none;transform:none}
+@media (hover:hover){.icon-btn:hover:before{background:var(--fill2)}}
+.icon-btn:active:before{background:#d5d7dd;transform:scale(.88)}
+.icon-btn.added:before{background:rgba(60,76,105,.1)}
+.icon-btn.added:active:before{background:#d5d7dd}
+
+/* bottom sheet */
+.scrim{position:absolute;inset:0;background:rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .35s ease;z-index:50}
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:60;background:var(--surface);border-radius:38px 38px 0 0;padding-bottom:40px;filter:drop-shadow(0 15px 37.5px rgba(0,0,0,.18));transform:translateY(105%);transition:transform .5s cubic-bezier(.25,.8,.25,1);visibility:hidden}
+.device.sheet-open .scrim{opacity:1;pointer-events:auto}
+.device.sheet-open .sheet{transform:none;visibility:visible}
+.sheet.dragging{transition:none}
+.sh-head{padding:0 16px 10px;touch-action:none}
+.grabber{height:16px;padding-top:5px;display:flex;justify-content:center;cursor:grab}
+.grabber i{display:block;width:36px;height:5px;border-radius:100px;background:#ccc}
+.ep-row{display:flex;gap:16px;align-items:center;padding-top:8px}
+.ep-row img{width:64px;height:64px;border-radius:8px;object-fit:cover;flex:none}
+.ep-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.cap{font:500 12px/14px var(--lab);color:var(--fg2);text-transform:uppercase}
+.sh-body{padding:8px 16px 0}
+.rows{background:var(--fill);border-radius:16px;overflow:hidden}
+.srow{width:100%;height:48px;display:flex;align-items:center;gap:12px;padding:0 12px;text-align:left;font:500 14px/18px var(--lab);color:var(--fg);transition:background .15s}
+.srow+.srow{border-top:1px solid var(--fill2)}
+.srow:active{background:rgba(0,0,0,.06)}
+.srow .ri{flex:none}
+.srow .more-l{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.srow>span:not(.more-l){flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.srow[data-act="more"]{padding-right:12px}
+@media (prefers-reduced-motion:reduce){.sheet,.scrim{transition:none}}
+
+/* karusellerna går inte att svepa: innehållet beskärs som i Figma */
+.carousel{overflow-x:hidden;scroll-snap-type:none;touch-action:pan-y}
+
+/* alla kort: krymper lite vid hover */
+.card{transition:transform .45s cubic-bezier(.25,.8,.25,1)}
+.card.in-view{transform:scale(.97)}
+@media (prefers-reduced-motion:reduce){.card{transition:none}}
+
+/* fokus: samma effekt som hover */
+.card{outline:none}
+.card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.pill-btn.outline img.pop,.heart img.pop{animation:pop .45s cubic-bezier(.3,1.6,.5,1)}
+
+/* genvägarna högst upp: inget hover-/klickläge */
+.shortcut,.shortcut:hover,.shortcut:active,.shortcut:focus,.shortcut:focus-visible{background:var(--fill);transform:none;outline:none;transition:none;cursor:default}
+
+/* meddelandet visas mitt på skärmen */
+.toast{position:fixed;position:absolute;left:50%;top:50%;right:auto;bottom:auto;width:max-content;max-width:calc(100% - 32px);transform:translate(-50%,-46%) scale(.96);z-index:80}
+.toast.show{transform:translate(-50%,-50%) scale(1)}
+
+/* meddelandet ligger strax ovanför spelaren, centrerat i bredd */
+.toast{top:auto;bottom:154px;transform:translate(-50%,8px) scale(.96)}
+.toast.show{transform:translate(-50%,0) scale(1)}
+
+/* de två gnistorna i ikonen glittrar vid hover/fokus på hela knappen */
+.pi .sp1,.pi .sp2{transform-box:fill-box;transform-origin:center}
+.prompt:hover .sp1,.prompt:focus-visible .sp1{animation:twinkle .9s ease-in-out}
+.prompt:hover .sp2,.prompt:focus-visible .sp2{animation:twinkle .9s .18s ease-in-out}
+@keyframes twinkle{0%{transform:scale(1) rotate(0);opacity:1}35%{transform:scale(1.4) rotate(30deg);opacity:.55}70%{transform:scale(.9) rotate(-10deg);opacity:1}100%{transform:scale(1) rotate(0);opacity:1}}
+@media (prefers-reduced-motion:reduce){.prompt:hover .sp1,.prompt:hover .sp2{animation:none}}
+
+/* de gula plupparna: dyker upp med en liten studs när sidan öppnas */
+.plupp{isolation:isolate;animation:pluppIn 1s .5s ease-out both}
+.plupp img{position:relative;z-index:1}
+.sc-row .shortcut:nth-child(2) .plupp{animation-delay:.75s}
+.sc-row .shortcut:nth-child(2) @keyframes pluppIn{0%{transform:scale(0) translateY(0)}35%{transform:scale(1.7) translateY(-5px)}55%{transform:scale(.8) translateY(1px)}75%{transform:scale(1.2) translateY(-1px)}100%{transform:scale(1) translateY(0)}}
+@media (prefers-reduced-motion:reduce){.plupp{animation:none}}
+
+/* notisfrågan */
+.dscrim{position:absolute;inset:0;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:opacity .3s ease;z-index:90}
+.dialog{position:absolute;left:50%;top:50%;z-index:100;width:calc(100% - 48px);max-width:320px;background:var(--surface);border-radius:28px;padding:24px;display:flex;flex-direction:column;gap:8px;align-items:center;text-align:center;opacity:0;visibility:hidden;transform:translate(-50%,-46%) scale(.94);transition:opacity .3s ease,transform .4s cubic-bezier(.25,.8,.25,1),visibility 0s .4s;box-shadow:0 15px 37.5px rgba(0,0,0,.18)}
+.device.dialog-open .dscrim{opacity:1;pointer-events:auto}
+.device.dialog-open .dialog{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1);transition-delay:0s}
+.nd-ic{width:48px;height:48px;border-radius:50%;background:var(--fill);display:flex;align-items:center;justify-content:center;margin-bottom:4px}
+.nd-text{font:400 14px/18px var(--lab);color:var(--fg3)}
+.nd-btns{display:flex;flex-direction:column;gap:8px;width:100%;margin-top:16px}
+.nd-btns .pill-btn{width:100%;height:44px;padding:0 24px}
+@media (prefers-reduced-motion:reduce){.dscrim,.dialog{transition:none}}
+
+/* mobilram runt skärmen */
+.frame{position:relative;padding:12px;border-radius:58px;background:linear-gradient(145deg,#34373c,#0c0d0f 55%,#26282c);
+  box-shadow:0 0 0 2px #50545b,0 0 0 3.5px #0b0c0e,0 40px 70px rgba(20,24,34,.35),inset 0 0 0 1.5px rgba(255,255,255,.08)}
+.frame:before{content:"";position:absolute;left:-5.5px;top:112px;width:3px;height:28px;border-radius:2px 0 0 2px;background:linear-gradient(90deg,#2a2c30,#505359);
+  box-shadow:0 52px 0 #3b3e43,0 104px 0 #3b3e43}
+.frame:after{content:"";position:absolute;right:-5.5px;top:170px;width:3px;height:84px;border-radius:0 2px 2px 0;background:linear-gradient(270deg,#2a2c30,#505359)}
+.device{height:min(700px,calc(100vh - 56px));border-radius:44px;background:var(--surface)}
+.island{position:absolute;left:50%;top:11px;transform:translateX(-50%);width:96px;height:28px;border-radius:20px;background:#000;z-index:200;pointer-events:none}
+.home-ind{position:absolute;left:50%;bottom:7px;transform:translateX(-50%);width:122px;height:4.5px;border-radius:3px;background:#050505;z-index:200;pointer-events:none}
+@media (max-width:420px){
+  .frame{padding:0;border-radius:0;background:none;box-shadow:none}
+  .frame:before,.frame:after,.island,.home-ind{display:none}
+  .device{border-radius:0;height:100vh;height:100dvh}
+}
+
+
+.carousel.scroll{overflow-x:auto;touch-action:auto;-webkit-overflow-scrolling:touch}
+/* snappy horisontell skrollning */
+.carousel.scroll{scroll-snap-type:x mandatory;scroll-padding-left:16px;overscroll-behavior-x:contain}
+.carousel.scroll>*{scroll-snap-align:start;scroll-snap-stop:always}
+/* kategorier: ingen vertikal skroll i modulen */
+.carousel.cats{overflow-y:hidden;overscroll-behavior:none}
+.cat-grid{height:auto}
+.carousel.cats.scroll{scroll-snap-type:none;scroll-padding-left:0;overflow-x:auto;overflow-y:hidden;touch-action:pan-x pan-y}
+.carousel.cats.scroll>*{scroll-snap-align:none}
+.img-head>.title-l,.img-head>.hc{flex:1;min-width:0}
+.img-head .chev{flex:none;margin-left:auto}
+.sec-heading>.title-l{flex:1;min-width:0}
+.sec-heading>.chev{flex:none;margin-left:auto}
+
+
+/* volymknapp på promo-korten */
+.vol-btn{position:absolute;right:4px;top:238px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.75);display:flex;align-items:center;justify-content:center;z-index:3;transition:transform .15s ease,background .2s ease}
+.vol-btn:active{transform:scale(.88);background:rgba(255,255,255,.95)}
+.vol-btn svg{display:none}
+.vol-btn.muted .v-off,.vol-btn:not(.muted) .v-on{display:block}
+.vol-btn.pop svg{animation:pop .4s cubic-bezier(.3,1.6,.5,1)}
+.vol-btn{width:32px;height:32px;background:rgba(255,255,255,.3);opacity:.7;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.vol-btn:active{background:rgba(255,255,255,.5);opacity:1}
+.vol-btn svg{width:18px;height:18px}
+/* minispelare visar valt avsnitt */
+.mini-ep{display:flex;flex-direction:column;min-width:0}
+.mini-ep span{font:600 11px/14px var(--lab);color:rgba(247,247,248,.75);text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini-ep p{font:600 14px/18px var(--lab)}
+.logo32.ep{border-radius:4px;object-fit:cover}
+.mini-labels,.logo32{transition:opacity .25s ease}
+.mini.swapping .mini-labels,.mini.swapping .logo32{opacity:0}
+
+@media (max-width:420px){html,body{background:#fff}.device{width:100%;height:100vh;height:100dvh}.phone{width:100%}}
+</style>
+<div class="frame"><div class="device"><div class="island"></div><div class="home-ind"></div><div class="phone" id="top">
+<header class="page-header">
+<div class="status"><span class="time">5:13</span><div class="status-r"><img class="sig" src="assets/mobile-signal.svg" alt="" draggable="false"><img class="wifi" src="assets/wifi.svg" alt="" draggable="false"><div class="battery"><img class="b-out" src="assets/outline.svg" alt="" draggable="false"><i class="b-fill"></i><img class="b-end" src="assets/battery-end.svg" alt="" draggable="false"><b>76</b></div></div></div>
+<div class="topbar"><div class="tabs">
+<button class="chip" data-tab="alla">Alla poddar</button><button class="chip active" data-tab="dig">För dig</button><button class="chip" data-tab="barn">Barn</button></div></div></header>
+<main class="content">
+<div class="s first"><section class="sec" id="personal">
+<div class="shortcuts"><div class="sc-row"><button class="shortcut"><img class="sc-img" src="assets/konv1.png" alt="" draggable="false"><span>I hjärnan på Louise Epstein</span><div class="plupp"><img src="assets/plupp.svg" alt="" draggable="false"></div></button><button class="shortcut"><img class="sc-img" src="assets/konv2.png" alt="" draggable="false"><span>USApodden</span><div class="plupp"><img src="assets/plupp.svg" alt="" draggable="false"></div></button></div>
+<div class="sc-row"><button class="shortcut"><img class="sc-img" src="assets/konv3.png" alt="" draggable="false"><span>Dagens Eko</span></button><button class="shortcut"><img class="sc-img" src="assets/konv4.png" alt="" draggable="false"><span>Morgonpasset i P3</span></button></div></div>
+<article class="card promo has-tr" tabindex="0">
+<div class="promo-head"><div class="promo-bg" style="background-image:linear-gradient(130.486deg, rgba(26,116,99,.3) 0%, rgba(130,160,160,.3) 48.558%, rgba(240,206,225,.3) 100%)"></div>
+<div class="promo-title"><p class="display-m">P3 Dokumentär</p></div>
+<div class="promo-cover" style="top:65px"><div class="clip"><img class="crop1" src="assets/promo1-a.png" alt="" draggable="false"></div><img class="fill-img" src="assets/promo1-b.png" alt="" draggable="false"><img class="fill-img" src="assets/promo1-c.png" alt="" draggable="false"></div>
+<div class="transcript" aria-hidden="true"><div class="tr-chunk on"><div><span>…och då går det upp för honom</span></div><div><span>att pengarna aldrig var hans</span></div></div><div class="tr-chunk"><div><span>Det är 2014 och polisen har</span></div><div><span>stängt av hela kvarteret…</span></div></div><div class="tr-chunk"><div><span>Ingen vet ännu vad som väntar</span></div><div><span>bakom dörren i trapphuset…</span></div></div><div class="tr-chunk"><div><span>Men en man vet redan att</span></div><div><span>ingenting blir sig likt igen</span></div></div></div><button class="vol-btn muted" aria-label="Ljud av" aria-pressed="true"><svg class="v-off" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5H4z" fill="#3c4c69"/><path d="M15.5 9.5l5 5m0-5l-5 5" stroke="#3c4c69" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg><svg class="v-on" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5H4z" fill="#3c4c69"/><path d="M15 9a4 4 0 010 6M17.5 6.5a7.5 7.5 0 010 11" stroke="#3c4c69" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg></button></div>
+<p class="desc clamp2">Sveriges största podd om vår tids mest spännande och viktiga händelser.</p>
+<div class="actions gap16"><div class="btn-wrap grow"><button class="pill-btn solid"><span class="pb-text">Gå till podd</span></button></div><div class="btn-wrap grow"><button class="pill-btn outline follow-toggle"><img class="ic24" src="assets/icon-follow.svg" alt="" draggable="false"><span class="pb-text">Följ</span></button></div></div></article>
+<button class="prompt"><svg class="pi ic24" viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true"><path d="M3.5 15.8845V14.3848H11.0095V15.8845H3.5ZM3.5 11.8845V10.3848H14.9807V11.8845H3.5ZM3.5 7.8845V6.38475H14.9807V7.8845H3.5Z" fill="#050505"/><path class="sp1" d="M19.876 14.1642L19.5979 14.8011C19.491 15.046 19.1523 15.046 19.0454 14.8011L18.7677 14.1642C18.5202 13.5974 18.075 13.1462 17.5194 12.8992L16.7542 12.5594C16.5108 12.4514 16.5108 12.0972 16.7542 11.9892L17.4954 11.6601C18.065 11.4069 18.5184 10.9392 18.7615 10.3528L19.0434 9.67388C19.1479 9.42178 19.4958 9.42178 19.6003 9.67388L19.8818 10.3528C20.1249 10.9392 20.5783 11.4069 21.1479 11.6601L21.8891 11.9892C22.1325 12.0972 22.1325 12.4514 21.8891 12.5594L21.1239 12.8992C20.5687 13.1458 20.1235 13.5971 19.876 14.1642Z" fill="#050505"/><path class="sp2" d="M16.5559 18.5995L16.6794 18.3169C16.8994 17.8127 17.2955 17.4116 17.7875 17.192L18.1675 17.0234C18.373 16.9324 18.373 16.6333 18.1675 16.5422L17.809 16.3827C17.3025 16.1576 16.8994 15.7414 16.6834 15.2202L16.5569 14.9146C16.4689 14.7016 16.1744 14.7016 16.0864 14.9146L15.9599 15.2202C15.7439 15.7414 15.3408 16.1576 14.8343 16.3827L14.4758 16.5422C14.2703 16.6333 14.2703 16.9324 14.4758 17.0234L14.8558 17.192C15.3498 17.4116 15.7454 17.8127 15.9654 18.3169L16.0889 18.5995C16.1794 18.8066 16.4659 18.8066 16.5559 18.5995Z" fill="#050505"/></svg><span>Prompta din poddlista</span><i class="badge">BETA</i></button>
+<div class="sub-sec"><div class="sec-heading"><p class="title-l">Poddar som liknar det du lyssnat på</p><svg class="chev ic24" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M9.5 6.5 15 12l-5.5 5.5" fill="none" stroke="#050505" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+<div class="stack"><article class="card" tabindex="0">
+<div class="card-head"><img class="cover88" src="assets/cover-epstein.png" alt="" draggable="false"><div class="head-content"><p class="eyebrow">I HJÄRNAN PÅ LOUISE EPSTEIN</p><p class="headline-s clamp2">Den gåtfulla dygnsrytmen - allt du vill veta</p></div></div>
+<p class="desc clamp2">Hur kan morgonmänniskor och kvällsmänniskor samexistera?</p>
+<div class="actions between"><div class="btn-wrap"><button class="play-pill" data-title="Den gåtfulla dygnsrytmen - allt du vill veta" data-prog="I HJÄRNAN PÅ LOUISE EPSTEIN" data-page="https://www.sverigesradio.se/avsnitt/den-gatfulla-dygnsrytmen-allt-du-vill-veta" aria-label="Spela"><img class="ic24" src="assets/icon-play.svg" alt="" draggable="false"><span>1:20 tim</span></button></div><div class="secondary">
+<button class="icon-btn" aria-label="Spellista"><img class="ic24" src="assets/icon-playlist.svg" alt="" draggable="false"></button>
+<button class="icon-btn" aria-label="Lägg till"><img class="ic24" src="assets/icon-add.svg" alt="" draggable="false"></button>
+<button class="icon-btn more" aria-label="Fler val" data-cover="cover-epstein.png" data-label="I HJÄRNAN PÅ LOUISE EPSTEIN" data-prog="I hjärnan på Louise Epstein" data-title="Den gåtfulla dygnsrytmen - allt du vill veta"><img class="ic24" src="assets/icon-more.svg" alt="" draggable="false"></button></div></div></article><article class="card" tabindex="0">
+<div class="card-head"><img class="cover88" src="assets/cover-monarkerna.png" alt="" draggable="false"><div class="head-content"><p class="headline-m-card">Monarkerna</p>
+<div class="tag"><img class="ic24" src="assets/icon-tag.svg" alt="" draggable="false"><p>Samhälle och kultur</p></div></div></div>
+<p class="desc clamp2">Med Titti Schultz ihop med de kungliga experterna Ebba Kleberg von Sydow och Sara Ericsson. En podd om det svenska kungahuset och europeisk monarki.</p>
+<div class="actions gap16"><div class="btn-wrap grow"><button class="pill-btn solid"><span class="pb-text">Gå till podd</span></button></div><div class="btn-wrap grow"><button class="pill-btn outline follow-toggle"><img class="ic24" src="assets/icon-follow.svg" alt="" draggable="false"><span class="pb-text">Följ</span></button></div></div></article><article class="card" tabindex="0">
+<div class="card-head"><img class="cover88" src="assets/cover-nykoping.png" alt="" draggable="false"><div class="head-content"><p class="eyebrow">P3 HISTORIA</p><p class="headline-s clamp2">Nyköpings gästabud, del 1 – Generationer av brödrasvek</p><div class="series"><img class="ic24" src="assets/series-icon.svg" alt="" draggable="false"><p>Del 1 av 3</p></div></div></div>
+<p class="desc clamp2">En långdragen fejd där maktkamp, krig och intriger kulminerar i ett mordiskt kalas. Som i slutändan leder till undergången för en hel brödraskara.</p>
+<div class="actions between"><div class="btn-wrap"><button class="play-pill" data-title="Nyköpings gästabud, del 1 – Generationer av brödrasvek" data-prog="P3 HISTORIA" data-page="" aria-label="Spela"><img class="ic24" src="assets/icon-play.svg" alt="" draggable="false"><span>1:20 tim</span></button></div><div class="secondary">
+<button class="icon-btn" aria-label="Spellista"><img class="ic24" src="assets/icon-playlist.svg" alt="" draggable="false"></button>
+<button class="icon-btn" aria-label="Lägg till"><img class="ic24" src="assets/icon-add.svg" alt="" draggable="false"></button>
+<button class="icon-btn more" aria-label="Fler val" data-cover="cover-nykoping.png" data-label="P3 HISTORIA" data-prog="P3 Historia" data-title="Nyköpings gästabud, del 1 – Generationer av brödrasvek"><img class="ic24" src="assets/icon-more.svg" alt="" draggable="false"></button></div></div></article></div></div></section></div><div class="s big"><section class="sec gap8"><div class="sec-heading img-head"><img class="art48" style="border-radius:4px" src="assets/p3dok-artwork.png" alt="" draggable="false"><p class="title-l">Andra som lyssnar på <b>P3 dokumentär </b>lyssnar också på</p><svg class="chev ic24" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M9.5 6.5 15 12l-5.5 5.5" fill="none" stroke="#050505" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+<div class="carousel scroll"><div class="show"><img class="cover160" src="assets/p3dok-1.png" alt="" draggable="false"><p class="headline-xs">P1 Dokumentär</p></div><div class="show"><img class="cover160" src="assets/p3dok-2.png" alt="" draggable="false"><p class="headline-xs">P3 ID</p></div><div class="show"><img class="cover160" src="assets/p3dok-3.png" alt="" draggable="false"><p class="headline-xs">P3 dokumentär</p></div><div class="show"><img class="cover160" src="assets/sr-5067.jpg" alt="" draggable="false"><p class="headline-xs">P3 Historia</p></div><div class="show"><img class="cover160" src="assets/sr-412.jpg" alt="" draggable="false"><p class="headline-xs">Vetenskapsradion</p></div><div class="show"><img class="cover160" src="assets/sr-6664.jpg" alt="" draggable="false"><p class="headline-xs">Konsulterna</p></div><div class="show"><img class="cover160" src="assets/sr-1165.jpg" alt="" draggable="false"><p class="headline-xs">Tankar för dagen</p></div><div class="show"><img class="cover160" src="assets/sr-478.jpg" alt="" draggable="false"><p class="headline-xs">Kulturnytt</p></div><div class="show"><img class="cover160" src="assets/sr-3117.jpg" alt="" draggable="false"><p class="headline-xs">Karlavagnen</p></div><div class="show"><img class="cover160" src="assets/sr-516.jpg" alt="" draggable="false"><p class="headline-xs">Spanarna</p></div></div></section></div><div class="s"><section class="sec"><div class="sec-heading"><p class="title-l">Eftersom du lyssnat på <b>True Crime</b></p><svg class="chev ic24" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M9.5 6.5 15 12l-5.5 5.5" fill="none" stroke="#050505" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+<div class="stack"><article class="card" tabindex="0">
+<div class="card-head"><img class="cover88" src="assets/tc-1.png" alt="" draggable="false"><div class="head-content"><p class="eyebrow">P3 ID</p><p class="headline-s clamp2">Brittany Murphy – Hollywoodsagan som blev true crime</p></div></div>
+<p class="desc clamp2">Hon var skådespelerskan som charmade alla hon träffade. Men hennes liv kom att omges av rykten, och efter hennes död skulle det bli ännu fler.</p>
+<div class="actions between"><div class="btn-wrap"><button class="play-pill" data-title="Brittany Murphy – Hollywoodsagan som blev true crime" data-prog="P3 ID" data-page="" aria-label="Spela"><img class="ic24" src="assets/icon-play.svg" alt="" draggable="false"><span>1:20 tim</span></button></div><div class="secondary">
+<button class="icon-btn" aria-label="Spellista"><img class="ic24" src="assets/icon-playlist.svg" alt="" draggable="false"></button>
+<button class="icon-btn" aria-label="Lägg till"><img class="ic24" src="assets/icon-add.svg" alt="" draggable="false"></button>
+<button class="icon-btn more" aria-label="Fler val" data-cover="tc-1.png" data-label="P3 ID" data-prog="P3 ID" data-title="Brittany Murphy – Hollywoodsagan som blev true crime"><img class="ic24" src="assets/icon-more.svg" alt="" draggable="false"></button></div></div></article><article class="card" tabindex="0">
+<div class="card-head"><img class="cover88" src="assets/tc-2.png" alt="" draggable="false"><div class="head-content"><p class="eyebrow">P3 NYHETER DOKUMENTÄR</p><p class="headline-s clamp2">Fallet Gypsy Rose – P3 Nyheter Dokumentär</p></div></div>
+<p class="desc clamp2">När Dee Dee Blanchard mördas i juni 2015 misstänker polisen att hennes dotter Gypsy Rose ligger bakom mordet. Men det som börjar som en vanlig mordutredning ska snart komma att bli ett av världens mest kända fall av Münchhausen by proxy.</p>
+<div class="actions between"><div class="btn-wrap"><button class="play-pill" data-title="Fallet Gypsy Rose – P3 Nyheter Dokumentär" data-prog="P3 NYHETER DOKUMENTÄR" data-page="" aria-label="Spela"><img class="ic24" src="assets/icon-play.svg" alt="" draggable="false"><span>1:20 tim</span></button></div><div class="secondary">
+<button class="icon-btn" aria-label="Spellista"><img class="ic24" src="assets/icon-playlist.svg" alt="" draggable="false"></button>
+<button class="icon-btn" aria-label="Lägg till"><img class="ic24" src="assets/icon-add.svg" alt="" draggable="false"></button>
+<button class="icon-btn more" aria-label="Fler val" data-cover="tc-2.png" data-label="P3 NYHETER DOKUMENTÄR" data-prog="P3 Nyheter Dokumentär" data-title="Fallet Gypsy Rose – P3 Nyheter Dokumentär"><img class="ic24" src="assets/icon-more.svg" alt="" draggable="false"></button></div></div></article><article class="card" tabindex="0">
+<div class="card-head"><img class="cover88" src="assets/tc-3.png" alt="" draggable="false"><div class="head-content"><p class="headline-m-card">P3 Krim</p>
+<div class="tag"><img class="ic24" src="assets/icon-tag.svg" alt="" draggable="false"><p>Samhälle och kultur</p></div></div></div>
+<p class="desc clamp2">Varje vecka ger Petra Berggren, Linus Lindahl och Jenny Hellström dig aktuella berättelser om brott och straff.</p>
+<div class="actions gap16"><div class="btn-wrap grow"><button class="pill-btn solid"><span class="pb-text">Gå till podd</span></button></div><div class="btn-wrap grow"><button class="pill-btn outline follow-toggle"><img class="ic24" src="assets/icon-follow.svg" alt="" draggable="false"><span class="pb-text">Följ</span></button></div></div></article></div></section></div><div class="s"><section class="sec gap8"><div class="sec-heading"><p class="title-l">Avsnitt vi tror du kommer gilla</p></div>
+<article class="card promo has-tr" tabindex="0">
+<div class="promo-head"><div class="promo-bg" style="background-image:linear-gradient(130.486deg, rgba(219,173,45,.3) 0%, rgba(207,78,156,.3) 36.058%, rgba(114,88,145,.3) 68.269%, rgba(13,98,133,.3) 100%)"></div>
+<div class="promo-title"><p class="eyebrow">Monarkerna</p><p class="display-m">Bonusprinsens dom</p></div>
+<div class="promo-cover" style="top:53px"><div class="clip"><img class="crop1" src="assets/promo2-a.png" alt="" draggable="false"></div><img class="fill-img" src="assets/promo2-b.png" alt="" draggable="false"><div class="clip"><img class="crop2" src="assets/promo2-c.png" alt="" draggable="false"></div></div>
+<div class="upcoming"><span>15 okt</span></div><div class="transcript" aria-hidden="true"><div class="tr-chunk on"><div><span>Domen föll tidigare i dag,</span></div><div><span>fyra år i fängelse</span></div></div><div class="tr-chunk"><div><span>Experten tror att Marius kan</span></div><div><span>få en speciell permission</span></div></div><div class="tr-chunk"><div><span>Det beror på om Mette-Marit</span></div><div><span>blir drottning, säger hon</span></div></div><div class="tr-chunk"><div><span>Och det är en fråga som hela</span></div><div><span>kungahuset väntar svar på</span></div></div></div><button class="vol-btn muted" aria-label="Ljud av" aria-pressed="true"><svg class="v-off" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5H4z" fill="#3c4c69"/><path d="M15.5 9.5l5 5m0-5l-5 5" stroke="#3c4c69" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg><svg class="v-on" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5H4z" fill="#3c4c69"/><path d="M15 9a4 4 0 010 6M17.5 6.5a7.5 7.5 0 010 11" stroke="#3c4c69" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg></button></div>
+<p class="desc clamp2">Tidigare idag föll domen mot bonusprinsen och straffet — 4 år i fängelse. Experten: Marius kan få speciell permis om Mette-Marit blir drottning</p>
+<div class="actions gap16"><div class="btn-wrap grow"><button class="pill-btn solid play-pill-trailer" data-title="Bonusprinsens dom" data-prog="Monarkerna"><img class="ic24" src="assets/icon-play.svg" alt="" draggable="false"><span class="pb-text pl4">Trailer</span></button></div>
+<div class="btn-wrap grow"><button class="pill-btn outline"><img class="ic24" src="assets/icon-add.svg" alt="" draggable="false"><span class="pb-text">Min lista</span></button></div></div></article></section></div>
+<div class="s"><section class="sec gap16"><div class="sec-heading img-head"><img class="art48" style="border-radius:4px" src="assets/dz-artwork.png" alt="" draggable="false"><p class="title-l">Andra som lyssnar på <b>Druid &amp; Zimmerman show </b>lyssnar också på</p><svg class="chev ic24" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M9.5 6.5 15 12l-5.5 5.5" fill="none" stroke="#050505" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+<div class="carousel scroll"><div class="show"><img class="cover160" src="assets/dz-1.png" alt="" draggable="false"><p class="headline-xs">Dagens Eko</p></div><div class="show"><img class="cover160" src="assets/dz-2.png" alt="" draggable="false"><p class="headline-xs">USApodden</p></div><div class="show"><img class="cover160" src="assets/dz-3.png" alt="" draggable="false"><p class="headline-xs">P3 Dokumentär</p></div><div class="show"><img class="cover160" src="assets/sr-516.jpg" alt="" draggable="false"><p class="headline-xs">Spanarna</p></div><div class="show"><img class="cover160" src="assets/sr-4381.jpg" alt="" draggable="false"><p class="headline-xs">Lundströms Bokradio</p></div><div class="show"><img class="cover160" src="assets/sr-412.jpg" alt="" draggable="false"><p class="headline-xs">Vetenskapsradion</p></div><div class="show"><img class="cover160" src="assets/sr-6664.jpg" alt="" draggable="false"><p class="headline-xs">Konsulterna</p></div><div class="show"><img class="cover160" src="assets/sr-1637.jpg" alt="" draggable="false"><p class="headline-xs">Studio Ett</p></div><div class="show"><img class="cover160" src="assets/sr-3117.jpg" alt="" draggable="false"><p class="headline-xs">Karlavagnen</p></div><div class="show"><img class="cover160" src="assets/sr-5067.jpg" alt="" draggable="false"><p class="headline-xs">P3 Historia</p></div><div class="show"><img class="cover160" src="assets/sr-1165.jpg" alt="" draggable="false"><p class="headline-xs">Tankar för dagen</p></div><div class="show"><img class="cover160" src="assets/sr-179.jpg" alt="" draggable="false"><p class="headline-xs">Radiosporten</p></div><div class="show"><img class="cover160" src="assets/sr-478.jpg" alt="" draggable="false"><p class="headline-xs">Kulturnytt</p></div><div class="show"><img class="cover160" src="assets/sr-2071.jpg" alt="" draggable="false"><p class="headline-xs">Sommar &amp; Vinter i P1</p></div></div></section></div><div class="s"><section class="sec"><div class="sec-heading img-head"><div class="hist-art"><img src="assets/hist-heading.png" alt="" draggable="false"></div>
+<div class="hc"><p class="title-l">Senaste avsnitten från <b>Historia</b></p><p class="sub-xs">Baserat på din lyssning</p></div><svg class="chev ic24" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M9.5 6.5 15 12l-5.5 5.5" fill="none" stroke="#050505" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+<div class="stack"><article class="card" tabindex="0">
+<div class="card-head"><img class="cover88" src="assets/hist-1.png" alt="" draggable="false"><div class="head-content"><p class="eyebrow">P3 KLASSIKERN</p><p class="headline-s clamp2">Stjärnans ögonblick – brasiliansk kultklassiker</p></div></div>
+<p class="desc clamp2">Clarice Lispector, Brasiliens mest mytomspunna författare, skildrar en ung kvinnas ensamhet och längtan efter att bli sedd i en värld som inte vill ha henne.</p>
+<div class="actions between"><div class="btn-wrap"><button class="play-pill" data-title="Stjärnans ögonblick – brasiliansk kultklassiker" data-prog="P3 KLASSIKERN" data-page="" aria-label="Spela"><img class="ic24" src="assets/icon-play.svg" alt="" draggable="false"><span>1:20 tim</span></button></div><div class="secondary">
+<button class="icon-btn" aria-label="Spellista"><img class="ic24" src="assets/icon-playlist.svg" alt="" draggable="false"></button>
+<button class="icon-btn" aria-label="Lägg till"><img class="ic24" src="assets/icon-add.svg" alt="" draggable="false"></button>
+<button class="icon-btn more" aria-label="Fler val" data-cover="hist-1.png" data-label="P3 KLASSIKERN" data-prog="P3 Klassikern" data-title="Stjärnans ögonblick – brasiliansk kultklassiker"><img class="ic24" src="assets/icon-more.svg" alt="" draggable="false"></button></div></div></article><article class="card" tabindex="0">
+<div class="card-head"><img class="cover88" src="assets/hist-2.png" alt="" draggable="false"><div class="head-content"><p class="eyebrow">VETENSKAPSRADION HISTORIA</p><p class="headline-s clamp2">Uråldriga sjöjungfrur simmar igen</p></div></div>
+<p class="desc clamp2">I SVT:s Svärtan, storfilmen Odysséen och på Sjöhistoriska museet dyker de upp. Vi dyker ner i djupen med dem, sjöjungfrurna och andra havsvidunder. I alla tider har vattnet och havsdjupen skrämt och fascinerat. Jättebläckfiskar, sjöormar, Näcken och sjöjungfrur har turats om att dra ner oss i djupen och Tobias Svanelid och Urban Björstadius träffar folklivsforskaren Tora Wall, aktuell med boken Havet, för att ta reda på hur länge vi…</p>
+<div class="actions between"><div class="btn-wrap"><button class="play-pill" data-title="Uråldriga sjöjungfrur simmar igen" data-prog="VETENSKAPSRADION HISTORIA" data-page="" aria-label="Spela"><img class="ic24" src="assets/icon-play.svg" alt="" draggable="false"><span>1:20 tim</span></button></div><div class="secondary">
+<button class="icon-btn" aria-label="Spellista"><img class="ic24" src="assets/icon-playlist.svg" alt="" draggable="false"></button>
+<button class="icon-btn" aria-label="Lägg till"><img class="ic24" src="assets/icon-add.svg" alt="" draggable="false"></button>
+<button class="icon-btn more" aria-label="Fler val" data-cover="hist-2.png" data-label="VETENSKAPSRADION HISTORIA" data-prog="Vetenskapsradion Historia" data-title="Uråldriga sjöjungfrur simmar igen"><img class="ic24" src="assets/icon-more.svg" alt="" draggable="false"></button></div></div></article><article class="card" tabindex="0">
+<div class="card-head"><img class="cover88" src="assets/hist-3.png" alt="" draggable="false"><div class="head-content"><p class="eyebrow">P3 HISTORIA</p><p class="headline-s clamp2">Nyköpings gästabud, del 1 – Generationer av brödrasvek</p><div class="series"><img class="ic24" src="assets/series-icon.svg" alt="" draggable="false"><p>Del 1 av 3</p></div></div></div>
+<p class="desc clamp2">En långdragen fejd där maktkamp, krig och intriger kulminerar i ett mordiskt kalas. Som i slutändan leder till undergången för en hel brödraskara.</p>
+<div class="actions between"><div class="btn-wrap"><button class="play-pill" data-title="Nyköpings gästabud, del 1 – Generationer av brödrasvek" data-prog="P3 HISTORIA" data-page="" aria-label="Spela"><img class="ic24" src="assets/icon-play.svg" alt="" draggable="false"><span>1:20 tim</span></button></div><div class="secondary">
+<button class="icon-btn" aria-label="Spellista"><img class="ic24" src="assets/icon-playlist.svg" alt="" draggable="false"></button>
+<button class="icon-btn" aria-label="Lägg till"><img class="ic24" src="assets/icon-add.svg" alt="" draggable="false"></button>
+<button class="icon-btn more" aria-label="Fler val" data-cover="hist-3.png" data-label="P3 HISTORIA" data-prog="P3 Historia" data-title="Nyköpings gästabud, del 1 – Generationer av brödrasvek"><img class="ic24" src="assets/icon-more.svg" alt="" draggable="false"></button></div></div></article></div></section></div><div class="s"><section class="sec gap8"><div class="sec-heading vid-head"><p class="title-xl">Videoklipp för dig</p></div>
+<div class="carousel vids"><div class="video" style="width:188px;height:334px"><img class="fill-img" src="assets/vid1-a.png" alt="" draggable="false"><img class="fill-img" src="assets/vid1-b.png" alt="" draggable="false"></div><div class="video" style="width:188px;height:334px"><img class="fill-img" src="assets/vid2-a.png" alt="" draggable="false"><img class="fill-img" src="assets/vid2-b.png" alt="" draggable="false"></div><div class="video" style="width:160px;height:284px"><img class="fill-img" src="assets/vid3.png" alt="" draggable="false"></div><div class="video" style="width:160px;height:284px"></div><div class="video" style="width:160px;height:284px"></div><div class="video" style="width:160px;height:284px"></div></div></section></div><div class="s"><section class="sec"><div class="sec-heading img-head"><img class="art48" style="border-radius:100px" src="assets/cd-presenter.png" alt="" draggable="false"><div class="hc"><p class="title-l">Mer med <b>Cecilia Düringer</b></p><p class="sub-xs">Baserat på din lyssning</p></div><svg class="chev ic24" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M9.5 6.5 15 12l-5.5 5.5" fill="none" stroke="#050505" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+<div class="stack"><article class="card" tabindex="0">
+<div class="card-head"><img class="cover88" src="assets/cd-1.png" alt="" draggable="false"><div class="head-content"><p class="eyebrow">P3 historia</p><p class="headline-s clamp2">Cecilia rekommenderar: Katarina Jagellonica</p></div></div>
+<p class="desc clamp2">Vi bläddrar i arkivet och tar fram avsnittet om den polska prinsessan som blev Sveriges drottning under en obegripligt stormig tid i svensk historia. Redaktionen för det här avsnittet består av:</p>
+<div class="actions between"><div class="btn-wrap"><button class="play-pill" data-title="Cecilia rekommenderar: Katarina Jagellonica" data-prog="P3 historia" data-page="" aria-label="Spela"><img class="ic24" src="assets/icon-play.svg" alt="" draggable="false"><span>1:20 tim</span></button></div><div class="secondary">
+<button class="icon-btn" aria-label="Spellista"><img class="ic24" src="assets/icon-playlist.svg" alt="" draggable="false"></button>
+<button class="icon-btn" aria-label="Lägg till"><img class="ic24" src="assets/icon-add.svg" alt="" draggable="false"></button>
+<button class="icon-btn more" aria-label="Fler val" data-cover="cd-1.png" data-label="P3 historia" data-prog="P3 Historia" data-title="Cecilia rekommenderar: Katarina Jagellonica"><img class="ic24" src="assets/icon-more.svg" alt="" draggable="false"></button></div></div></article><article class="card" tabindex="0">
+<div class="card-head"><img class="cover88" src="assets/cd-2.png" alt="" draggable="false"><div class="head-content"><p class="eyebrow">P3 KLASSIKERN</p><p class="headline-s clamp2">Boktips med Cecilia Düringer</p></div></div>
+<p class="desc clamp2">Från 1600-talets häxbål till dionysiskt universitetsliv i amerikanskt 90-tal och en gudinnas äventyr under antiken. P3 Historias Cecilia Düringer tipsar om tre romaner med historiskt tema.</p>
+<div class="actions between"><div class="btn-wrap"><button class="play-pill" data-title="Boktips med Cecilia Düringer" data-prog="P3 KLASSIKERN" data-page="" aria-label="Spela"><img class="ic24" src="assets/icon-play.svg" alt="" draggable="false"><span>1:20 tim</span></button></div><div class="secondary">
+<button class="icon-btn" aria-label="Spellista"><img class="ic24" src="assets/icon-playlist.svg" alt="" draggable="false"></button>
+<button class="icon-btn" aria-label="Lägg till"><img class="ic24" src="assets/icon-add.svg" alt="" draggable="false"></button>
+<button class="icon-btn more" aria-label="Fler val" data-cover="cd-2.png" data-label="P3 KLASSIKERN" data-prog="P3 Klassikern" data-title="Boktips med Cecilia Düringer"><img class="ic24" src="assets/icon-more.svg" alt="" draggable="false"></button></div></div></article><article class="card" tabindex="0">
+<div class="card-head"><img class="cover88" src="assets/cd-3.png" alt="" draggable="false"><div class="head-content"><p class="eyebrow">MORGONPASSET I P3 - GÄSTEN</p><p class="headline-s clamp2">Från gymnasielärare till vinnare av På spåret – Cecilia Düringer</p></div></div>
+<p class="desc clamp2">Hon är rösten du känner igen från P3 Historia och historieläraren som vann På spåret. Cecilia Düringer gjorde slarvsylta av motståndet i På spåret tillsammans med Jonatan Unge och tog hem hela kalaset. Programledare: Kodjo Akolor, David Druid…</p>
+<div class="actions between"><div class="btn-wrap"><button class="play-pill" data-title="Från gymnasielärare till vinnare av På spåret – Cecilia Düringer" data-prog="MORGONPASSET I P3 - GÄSTEN" data-page="" aria-label="Spela"><img class="ic24" src="assets/icon-play.svg" alt="" draggable="false"><span>1:20 tim</span></button></div><div class="secondary">
+<button class="icon-btn" aria-label="Spellista"><img class="ic24" src="assets/icon-playlist.svg" alt="" draggable="false"></button>
+<button class="icon-btn" aria-label="Lägg till"><img class="ic24" src="assets/icon-add.svg" alt="" draggable="false"></button>
+<button class="icon-btn more" aria-label="Fler val" data-cover="cd-3.png" data-label="MORGONPASSET I P3 - GÄSTEN" data-prog="Morgonpasset i P3" data-title="Från gymnasielärare till vinnare av På spåret – Cecilia Düringer"><img class="ic24" src="assets/icon-more.svg" alt="" draggable="false"></button></div></div></article></div></section></div>
+<div class="s"><section class="sec gap8"><div class="sec-heading"><p class="title-xl">Utforska alla våra kategorier</p></div>
+<div class="carousel cats scroll"><div class="cat-grid"><a class="cat" href="#"><span class="cat-text">Barn</span><span class="cat-art"><span class="cat-rot"><img style="border-radius:4px" src="assets/cat1.png" alt="" draggable="false"></span></span></a><a class="cat" href="#"><span class="cat-text">Historia</span><span class="cat-art"><span class="cat-rot"><img style="border-radius:4px" src="assets/cat2.png" alt="" draggable="false"></span></span></a><a class="cat" href="#"><span class="cat-text">Samhälle och kultur</span><span class="cat-art"><span class="cat-rot"><img style="border-radius:4px" src="assets/cat3.png" alt="" draggable="false"></span></span></a><a class="cat" href="#"><span class="cat-text">Humor</span><span class="cat-art"><span class="cat-rot"><img style="border-radius:2px" src="assets/cat4.png" alt="" draggable="false"></span></span></a><a class="cat" href="#"><span class="cat-text">Drama</span><span class="cat-art"><span class="cat-rot"><img style="border-radius:4px" src="assets/cat5.png" alt="" draggable="false"></span></span></a><a class="cat" href="#"><span class="cat-text">Nyheter</span><span class="cat-art"><span class="cat-rot"><img style="border-radius:2px" src="assets/cat6.png" alt="" draggable="false"></span></span></a><a class="cat" href="#"><span class="cat-text">Nöje</span><span class="cat-art"><span class="cat-rot"><img style="border-radius:2px" src="assets/cat7.png" alt="" draggable="false"></span></span></a><a class="cat" href="#"><span class="cat-text">News in other languages</span><span class="cat-art"><span class="cat-rot"><img style="border-radius:2px" src="assets/cat8.png" alt="" draggable="false"></span></span></a><a class="cat" href="#"><span class="cat-text">Miljö och vetenskap</span><span class="cat-art"><span class="cat-rot"><img style="border-radius:2px" src="assets/cat9.png" alt="" draggable="false"></span></span></a><a class="cat" href="#"><span class="cat-text">Dokumentär</span><span class="cat-art"><span class="cat-rot"><img style="border-radius:4px" src="assets/cat10.png" alt="" draggable="false"></span></span></a><a class="cat" href="#"><span class="cat-text">Hälsa och livsstil</span><span class="cat-art"><span class="cat-rot"><img style="border-radius:2px" src="assets/cat11.png" alt="" draggable="false"></span></span></a><a class="cat" href="#"><span class="cat-text">Musik</span><span class="cat-art"><span class="cat-rot"><img style="border-radius:2px" src="assets/cat12.png" alt="" draggable="false"></span></span></a><a class="cat" href="#"><span class="cat-text">Livsåskådning</span><span class="cat-art"><span class="cat-rot"><img style="border-radius:2px" src="assets/cat13.png" alt="" draggable="false"></span></span></a><a class="cat tall" href="#"><span class="cat-text">Miljö och vetenskap</span><span class="cat-art"><span class="cat-rot"><img style="border-radius:4px" src="assets/cat14.png" alt="" draggable="false"></span></span></a><a class="cat" href="#"><span class="cat-text">Ekonomi och teknik</span><span class="cat-art"><span class="cat-rot"><img style="border-radius:2px" src="assets/cat15.png" alt="" draggable="false"></span></span></a><a class="cat" href="#"><span class="cat-text">Sport</span><span class="cat-art"><span class="cat-rot"><img style="border-radius:4px" src="assets/cat16.png" alt="" draggable="false"></span></span></a><a class="cat" href="#"><span class="cat-text">Alla poddar och program</span><span class="cat-art"><span class="cat-rot"><img style="border-radius:2px" src="assets/cat-all.png" alt="" draggable="false"></span></span></a></div></div></section></div><div class="s"><section class="sec gap8"><div class="sec-heading img-head"><div class="p1-logo"><img src="assets/p1-logo.svg" alt="" draggable="false"></div><p class="title-l">För dig som lyssnar på <b>P1</b></p><svg class="chev ic24" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M9.5 6.5 15 12l-5.5 5.5" fill="none" stroke="#050505" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+<div class="carousel p1c scroll"><div class="show"><img class="cover160" src="assets/p1-1.png" alt="" draggable="false"><div class="p1-row"><p class="headline-xs">Talkshow i P1</p><button class="heart" aria-label="Följ"><img class="ic24" src="assets/icon-follow.svg" alt="" draggable="false"></button></div></div><div class="show"><img class="cover160" src="assets/p1-2.png" alt="" draggable="false"><div class="p1-row"><p class="headline-xs">Lundströms Bokradio</p><button class="heart" aria-label="Följ"><img class="ic24" src="assets/icon-follow.svg" alt="" draggable="false"></button></div></div><div class="show"><img class="cover160" src="assets/p1-3.png" alt="" draggable="false"><div class="p1-row"><p class="headline-xs nowrap">Lundströms Bokradio</p><button class="heart" aria-label="Följ"><img class="ic24" src="assets/icon-follow.svg" alt="" draggable="false"></button></div></div><div class="show"><img class="cover160" src="assets/sr-1637.jpg" alt="" draggable="false"><div class="p1-row"><p class="headline-xs">Studio Ett</p><button class="heart" aria-label="Följ"><img class="ic24" src="assets/icon-follow.svg" alt="" draggable="false"></button></div></div><div class="show"><img class="cover160" src="assets/sr-412.jpg" alt="" draggable="false"><div class="p1-row"><p class="headline-xs">Vetenskapsradion</p><button class="heart" aria-label="Följ"><img class="ic24" src="assets/icon-follow.svg" alt="" draggable="false"></button></div></div><div class="show"><img class="cover160" src="assets/sr-1165.jpg" alt="" draggable="false"><div class="p1-row"><p class="headline-xs">Tankar för dagen</p><button class="heart" aria-label="Följ"><img class="ic24" src="assets/icon-follow.svg" alt="" draggable="false"></button></div></div><div class="show"><img class="cover160" src="assets/sr-478.jpg" alt="" draggable="false"><div class="p1-row"><p class="headline-xs">Kulturnytt</p><button class="heart" aria-label="Följ"><img class="ic24" src="assets/icon-follow.svg" alt="" draggable="false"></button></div></div><div class="show"><img class="cover160" src="assets/sr-2071.jpg" alt="" draggable="false"><div class="p1-row"><p class="headline-xs">Sommar &amp; Vinter i P1</p><button class="heart" aria-label="Följ"><img class="ic24" src="assets/icon-follow.svg" alt="" draggable="false"></button></div></div></div></section></div><div class="s"><section class="sec"><div class="sec-heading img-head"><img class="art48" style="border-radius:4px" src="assets/sommar-artwork.png" alt="" draggable="false"><p class="title-l">Författare från <b>Sommar i P1</b></p><svg class="chev ic24" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M9.5 6.5 15 12l-5.5 5.5" fill="none" stroke="#050505" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+<div class="stack"><article class="card" tabindex="0">
+<div class="card-head"><img class="cover88" src="assets/sommar-1.png" alt="" draggable="false"><div class="head-content"><p class="eyebrow">SOMMAR &amp; VINTER I P1</p><p class="headline-s clamp2">Amanda Romare</p></div></div>
+<p class="desc clamp2">Författaren om att plocka potatis, undvika döden och hitta sin plats på jorden.</p>
+<div class="actions between"><div class="btn-wrap"><button class="play-pill" data-title="Amanda Romare" data-prog="SOMMAR &amp; VINTER I P1" data-page="" aria-label="Spela"><img class="ic24" src="assets/icon-play.svg" alt="" draggable="false"><span>1:20 tim</span></button></div><div class="secondary">
+<button class="icon-btn" aria-label="Spellista"><img class="ic24" src="assets/icon-playlist.svg" alt="" draggable="false"></button>
+<button class="icon-btn" aria-label="Lägg till"><img class="ic24" src="assets/icon-add.svg" alt="" draggable="false"></button>
+<button class="icon-btn more" aria-label="Fler val" data-cover="sommar-1.png" data-label="SOMMAR &amp; VINTER I P1" data-prog="Sommar &amp; vinter i P1" data-title="Amanda Romare"><img class="ic24" src="assets/icon-more.svg" alt="" draggable="false"></button></div></div></article><article class="card" tabindex="0">
+<div class="card-head"><img class="cover88" src="assets/sommar-2.png" alt="" draggable="false"><div class="head-content"><p class="eyebrow">SOMMAR &amp; VINTER I P1</p><p class="headline-s clamp2">Jonas Bonnier</p></div></div>
+<p class="desc clamp2">Författaren avslöjar en hemlighet han burit på i många år.</p>
+<div class="actions between"><div class="btn-wrap"><button class="play-pill" data-title="Jonas Bonnier" data-prog="SOMMAR &amp; VINTER I P1" data-page="" aria-label="Spela"><img class="ic24" src="assets/icon-play.svg" alt="" draggable="false"><span>1:20 tim</span></button></div><div class="secondary">
+<button class="icon-btn" aria-label="Spellista"><img class="ic24" src="assets/icon-playlist.svg" alt="" draggable="false"></button>
+<button class="icon-btn" aria-label="Lägg till"><img class="ic24" src="assets/icon-add.svg" alt="" draggable="false"></button>
+<button class="icon-btn more" aria-label="Fler val" data-cover="sommar-2.png" data-label="SOMMAR &amp; VINTER I P1" data-prog="Sommar &amp; vinter i P1" data-title="Jonas Bonnier"><img class="ic24" src="assets/icon-more.svg" alt="" draggable="false"></button></div></div></article><article class="card" tabindex="0">
+<div class="card-head"><img class="cover88" src="assets/sommar-3.png" alt="" draggable="false"><div class="head-content"><p class="eyebrow">SOMMAR &amp; VINTER I P1</p><p class="headline-s clamp2">Ebba Witt-Brattström</p></div></div>
+<p class="desc clamp2">Författaren om att som barn erövra det nya landet Sverige och sudda ut krigens spår.</p>
+<div class="actions between"><div class="btn-wrap"><button class="play-pill" data-title="Ebba Witt-Brattström" data-prog="SOMMAR &amp; VINTER I P1" data-page="" aria-label="Spela"><img class="ic24" src="assets/icon-play.svg" alt="" draggable="false"><span>1:20 tim</span></button></div><div class="secondary">
+<button class="icon-btn" aria-label="Spellista"><img class="ic24" src="assets/icon-playlist.svg" alt="" draggable="false"></button>
+<button class="icon-btn" aria-label="Lägg till"><img class="ic24" src="assets/icon-add.svg" alt="" draggable="false"></button>
+<button class="icon-btn more" aria-label="Fler val" data-cover="sommar-3.png" data-label="SOMMAR &amp; VINTER I P1" data-prog="Sommar &amp; vinter i P1" data-title="Ebba Witt-Brattström"><img class="ic24" src="assets/icon-more.svg" alt="" draggable="false"></button></div></div></article></div></section></div></main>
+<footer class="app-footer">
+<button class="pill-btn solid big" id="toTop">Tillbaka till toppen</button>
+<div class="ft-info"><p>Besöksadress (sthlm) för Sveriges Radio AB:<br>Oxenstiernsgatan 20<br>105 10 Stockholm</p></div>
+<div class="ft-links"><a href="#">Kontakta oss<img class="ic24" src="assets/icon-external.svg" alt="" draggable="false"></a><a href="#">Mer om Sveriges Radio<img class="ic24" src="assets/icon-external.svg" alt="" draggable="false"></a></div>
+<img class="sr-logo" src="assets/logo-sr.svg" alt="" draggable="false"><p class="copy">© SVERIGES RADIO 2025</p></footer><div class="bottom">
+<div class="mini"><div class="mini-bg"><img class="logo32" src="assets/mini-logo.svg" alt="" draggable="false"><div class="mini-labels"><img class="ic24" src="assets/mini-direct.svg" alt="" draggable="false"><p>Klassisk förmiddag</p></div>
+<button class="mini-btn" aria-label="AirPlay"><img class="ic24" src="assets/mini-airplay.svg" alt="" draggable="false"></button>
+<button class="mini-btn play" aria-label="Spela"><img class="ic24" src="assets/mini-play.svg" alt="" draggable="false"><img class="prog" src="assets/mini-progress.svg" alt="" draggable="false"></button></div></div>
+<div class="tabbar"><div class="tb-pill">
+<a class="tb"><span class="tb-ic"><img src="assets/nav-home.svg" alt="" draggable="false"></span><span>Start</span></a>
+<a class="tb sel"><span class="tb-ic"><img src="assets/nav-podd.svg" alt="" draggable="false"></span><span>Poddar</span></a>
+<a class="tb"><span class="tb-ic"><img src="assets/nav-channels.svg" alt="" draggable="false"></span><span>Kanaler</span></a>
+<a class="tb"><span class="tb-ic"><img src="assets/nav-profile.svg" alt="" draggable="false"></span><span>Min sida</span></a>
+<a class="tb"><span class="tb-ic"><img src="assets/nav-search.svg" alt="" draggable="false"></span><span>Sök</span></a></div></div></div></div>
+<div class="scrim" id="scrim"></div><div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-hidden="true"><div class="sh-head"><div class="grabber"><i></i></div><div class="ep-row"><img id="shImg" src="" alt=""><div class="ep-t"><p class="eyebrow" id="shLabel"></p><p class="headline-s clamp2" id="shTitle"></p><p class="cap">16 SEP 2025 · KL 05:59</p></div></div></div><div class="sh-body"><div class="rows"><button class="srow" data-act="play"><svg class="ri" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#050505" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z" fill="#050505" stroke="none"/></svg><span>Spela avsnittet</span></button><button class="srow" data-act="add"><svg class="ri" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#050505" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg><span>Lägg till i Min lista</span></button><button class="srow" data-act="download"><svg class="ri" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#050505" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v8M8.5 12.5 12 16l3.5-3.5"/></svg><span>Ladda ned</span></button><button class="srow" data-act="played"><svg class="ri" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#050505" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.3l2.8 2.8L16.2 9.6"/></svg><span>Markera som spelad</span></button><button class="srow" data-act="share"><svg class="ri" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#050505" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="12" r="2.3"/><circle cx="18" cy="5.8" r="2.3"/><circle cx="18" cy="18.2" r="2.3"/><path d="M8 10.9l8-4M8 13.1l8 4"/></svg><span>Dela avsnittet</span></button><button class="srow" data-act="follow"><svg class="ri" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#050505" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19.5s-7-4.4-7-9.6a3.9 3.9 0 0 1 7-2.3 3.9 3.9 0 0 1 7 2.3c0 5.2-7 9.6-7 9.6z"/></svg><span>Följ <span class="sp"></span></span></button><button class="srow" data-act="more"><span class="more-l">Mer från <span class="sp"></span></span><svg class="ri" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#050505" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 6l6 6-6 6"/></svg></button></div></div></div><div class="dscrim" id="dscrim"></div><div class="dialog" id="notifDialog" role="alertdialog" aria-modal="true" aria-labelledby="ndTitle" aria-hidden="true"><div class="nd-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#3C4C69" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 1.5h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg></div><p class="headline-m-card" id="ndTitle">Vill du få notiser från <span id="ndName"></span>?</p><p class="nd-text">Vi meddelar dig när det kommer nya avsnitt.</p><div class="nd-btns"><button class="pill-btn solid" id="ndYes">Slå på notiser</button><button class="pill-btn outline" id="ndNo">Inte nu</button></div></div></div></div>
+<script>const REMOTE={};
+// Fallback: om en lokal bild saknas, hämta från Figma (länkarna gäller i ca 7 dagar).
+window.addEventListener('error', function (e) {
+  var t = e.target;
+  if (t && t.tagName === 'IMG' && !t.dataset.tried) {
+    t.dataset.tried = '1';
+    var name = decodeURIComponent(t.getAttribute('src').split('/').pop());
+    if (REMOTE[name]) t.src = REMOTE[name];
+  }
+}, true);
+
+// Filterpiller i toppen (en aktiv åt gången)
+document.querySelectorAll('.chip').forEach(function (c) {
+  c.addEventListener('click', function () {
+    document.querySelectorAll('.chip').forEach(function (x) { x.classList.remove('active'); });
+    c.classList.add('active');
+  });
+});
+
+// Följ / Följer (hjärtat fylls när man följer)
+function setHeart(btn, on) {
+  var im = btn.querySelector('img'); if (!im) return;
+  if (!im.dataset.orig) im.dataset.orig = im.getAttribute('src');
+  im.src = on ? 'assets/icon-follow-filled.svg' : im.dataset.orig;
+  im.classList.remove('pop'); void im.offsetWidth; im.classList.add('pop');
+}
+document.querySelectorAll('.follow-toggle').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var on = b.classList.toggle('on');
+    b.querySelector('.pb-text').textContent = on ? 'Följer' : 'Följ';
+    setHeart(b, on);
+    if (on) askNotif(b);
+  });
+});
+document.querySelectorAll('.heart').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var on = b.classList.toggle('on');
+    b.style.background = on ? '#d5d7dd' : '';
+    setHeart(b, on);
+    if (on) askNotif(b);
+  });
+});
+
+// Tillbaka till toppen
+document.getElementById('toTop').addEventListener('click', function () {
+  document.getElementById('top').scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// Kategorilänkar ska inte hoppa
+document.querySelectorAll('a[href="#"]').forEach(function (a) {
+  a.addEventListener('click', function (e) { e.preventDefault(); });
+});
+
+// Transkribering: visar två rader i taget och byter till nästa del medan kortet hovras/har fokus
+document.querySelectorAll('.has-tr').forEach(function (card) {
+  var chunks = card.querySelectorAll('.tr-chunk'), i = 0, timer = null;
+  function show(n) {
+    chunks.forEach(function (c, k) {
+      c.classList.remove('on', 'out');
+      if (k === n) c.classList.add('on');
+    });
+  }
+  function next() {
+    var prev = chunks[i];
+    i = (i + 1) % chunks.length;
+    prev.classList.remove('on'); prev.classList.add('out');
+    var cur = chunks[i];
+    cur.classList.remove('out'); cur.style.transition = 'none'; cur.style.filter = 'blur(3px)'; cur.style.transform = 'translateY(6px)';
+    void cur.offsetWidth; cur.style.transition = ''; cur.style.transform = ''; cur.style.filter = '';
+    cur.classList.add('on');
+  }
+  function start() { if (!timer) timer = setInterval(next, 3600); }
+  function stop() { clearInterval(timer); timer = null; i = 0; setTimeout(function () { if (!timer) show(0); }, 800); }
+  new MutationObserver(function () { card.classList.contains('in-view') ? start() : stop(); }).observe(card, { attributes: true, attributeFilter: ['class'] });
+});
+
+// ---- Playing-läge på playknapparna (ingen riktig uppspelning) ----
+(function () {
+  var EQ = '<span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>';
+  var current = null;
+  // Byt innehåll med mjuk breddövergång och nedtoning av det nya innehållet
+  function swap(btn, change) {
+    var w0 = btn.getBoundingClientRect().width;
+    btn.style.width = ''; btn.style.transition = 'none';
+    change();
+    var w1 = btn.getBoundingClientRect().width;
+    btn.style.width = w0 + 'px'; btn.style.overflow = 'hidden'; btn.classList.add('swap');
+    void btn.offsetWidth;
+    btn.style.transition = 'width .55s cubic-bezier(.25,.8,.25,1), transform .1s';
+    btn.style.width = w1 + 'px';
+    clearTimeout(btn._t);
+    btn._t = setTimeout(function () {
+      btn.style.width = ''; btn.style.overflow = ''; btn.style.transition = ''; btn.classList.remove('swap');
+    }, 600);
+  }
+  function setState(btn, playing) {
+    if (btn.dataset.orig === undefined) btn.dataset.orig = btn.innerHTML;
+    btn.classList.toggle('playing', playing);
+    swap(btn, function () {
+      if (!playing) { btn.innerHTML = btn.dataset.orig; return; }
+      if (btn.classList.contains('play-pill')) {
+        btn.innerHTML = EQ + '<span class="pp"><span class="pbar"><i></i></span><span>1:10 tim</span></span>';
+      } else {
+        var im = btn.querySelector('img');
+        if (im) im.outerHTML = EQ;
+      }
+    });
+  }
+  document.querySelectorAll('.play-pill, .play-pill-trailer').forEach(function (btn) {
+    btn.addEventListener('click', function (ev) {
+      ev.stopPropagation();
+      if (current === btn) { setState(btn, false); current = null; window.__mini && window.__mini(btn, false); return; }
+      if (current) setState(current, false);
+      setState(btn, true); current = btn;
+      window.__mini && window.__mini(btn, true);
+    });
+  });
+})();
+
+// ---- Feedback på sekundära knappar (spellista / lägg till / min lista) ----
+(function () {
+  var CHECK = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z" fill="#3C4C69"/></svg>');
+  var snack = document.createElement('div');
+  snack.className = 'toast'; snack.setAttribute('role', 'status');
+  document.querySelector('.device').appendChild(snack);
+  var t;
+  window.__say = say;
+  function say(msg) {
+    snack.textContent = msg; snack.classList.add('show');
+    clearTimeout(t); t = setTimeout(function () { snack.classList.remove('show'); }, 2200);
+  }
+  function toggle(btn, onMsg, offMsg) {
+    var im = btn.querySelector('img'); if (!im) return;
+    if (!im.dataset.orig) im.dataset.orig = im.getAttribute('src');
+    var on = btn.classList.toggle('added');
+    im.src = on ? CHECK : im.dataset.orig;
+    im.classList.remove('pop'); void im.offsetWidth; im.classList.add('pop');
+    btn.setAttribute('aria-pressed', on);
+    say(on ? onMsg : offMsg);
+  }
+  document.querySelectorAll('.icon-btn[aria-label="Lägg till"]').forEach(function (b) {
+    b.addEventListener('click', function () { toggle(b, 'Tillagd i Min lista', 'Borttagen från Min lista'); });
+  });
+  document.querySelectorAll('.icon-btn[aria-label="Spellista"]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var on = b.classList.toggle('added');
+      b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump');
+      say(on ? 'Tillagd i kö' : 'Borttagen från kön');
+    });
+  });
+  document.querySelectorAll('.pill-btn.outline').forEach(function (b) {
+    var im = b.querySelector('img[src$="icon-add.svg"]'); if (!im) return;
+    b.addEventListener('click', function () { toggle(b, 'Tillagd i Min lista', 'Borttagen från Min lista'); });
+  });
+})();
+
+// ---- Bottom sheet för "Fler val" ----
+(function () {
+  var device = document.querySelector('.device'), sheet = document.getElementById('sheet'),
+      scrim = document.getElementById('scrim'), card = null;
+  function open(btn) {
+    card = btn.closest('.card');
+    document.getElementById('shImg').src = 'assets/' + btn.dataset.cover;
+    document.getElementById('shLabel').textContent = btn.dataset.label;
+    document.getElementById('shTitle').textContent = btn.dataset.title;
+    sheet.querySelectorAll('.sp').forEach(function (s) { s.textContent = btn.dataset.prog; });
+    sheet.dataset.prog = btn.dataset.prog;
+    sheet.style.transform = '';
+    device.classList.add('sheet-open'); sheet.setAttribute('aria-hidden', 'false');
+  }
+  function close() {
+    sheet.style.transform = ''; device.classList.remove('sheet-open'); sheet.setAttribute('aria-hidden', 'true');
+  }
+  document.querySelectorAll('.icon-btn.more').forEach(function (b) {
+    b.addEventListener('click', function () { open(b); });
+  });
+  scrim.addEventListener('click', close);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+
+  sheet.querySelectorAll('.srow').forEach(function (r) {
+    r.addEventListener('click', function () {
+      var act = r.dataset.act, prog = sheet.dataset.prog, c = card;
+      close();
+      setTimeout(function () {
+        var say = window.__say || function () {};
+        if (act === 'play') { var p = c && c.querySelector('.play-pill'); if (p && !p.classList.contains('playing')) p.click(); }
+        else if (act === 'add') { var a = c && c.querySelector('.icon-btn[aria-label="Lägg till"]'); if (a && !a.classList.contains('added')) a.click(); else say('Finns redan i Min lista'); }
+        else if (act === 'download') say('Laddar ned avsnittet');
+        else if (act === 'played') say('Markerad som spelad');
+        else if (act === 'share') say('Länk kopierad');
+        else if (act === 'follow') say('Du följer ' + prog);
+        else if (act === 'more') say('Öppnar ' + prog);
+      }, 300);
+    });
+  });
+
+  // Dra grabbern/headern nedåt för att stänga
+  var head = sheet.querySelector('.sh-head'), y0 = null, dy = 0;
+  head.addEventListener('pointerdown', function (e) { y0 = e.clientY; dy = 0; sheet.classList.add('dragging'); head.setPointerCapture(e.pointerId); });
+  head.addEventListener('pointermove', function (e) {
+    if (y0 === null) return;
+    dy = Math.max(0, e.clientY - y0); sheet.style.transform = 'translateY(' + dy + 'px)';
+  });
+  function end() {
+    if (y0 === null) return;
+    y0 = null; sheet.classList.remove('dragging');
+    if (dy > 90) close(); else sheet.style.transform = '';
+  }
+  head.addEventListener('pointerup', end); head.addEventListener('pointercancel', end);
+})();
+
+// ---- Fråga om notiser när man börjar följa en podd ----
+function askNotif(btn) {
+  var card = btn.closest('.card') || btn.closest('.show');
+  var t = card && card.querySelector('.headline-m-card, .display-m, .headline-xs');
+  var name = t ? t.textContent.trim() : 'podden';
+  var device = document.querySelector('.device'), dlg = document.getElementById('notifDialog');
+  document.getElementById('ndName').textContent = name;
+  device.classList.add('dialog-open'); dlg.setAttribute('aria-hidden', 'false');
+  function close() { device.classList.remove('dialog-open'); dlg.setAttribute('aria-hidden', 'true'); cleanup(); }
+  function yes() { close(); setTimeout(function () { if (window.__say) window.__say('Notiser på för ' + name); }, 250); }
+  function onKey(e) { if (e.key === 'Escape') close(); }
+  var yesB = document.getElementById('ndYes'), noB = document.getElementById('ndNo'), sc = document.getElementById('dscrim');
+  function cleanup() {
+    yesB.removeEventListener('click', yes); noB.removeEventListener('click', close);
+    sc.removeEventListener('click', close); document.removeEventListener('keydown', onKey);
+  }
+  yesB.addEventListener('click', yes); noB.addEventListener('click', close);
+  sc.addEventListener('click', close); document.addEventListener('keydown', onKey);
+}
+
+
+// ---- Kortet som är i fokus på skärmen (mitt i synliga ytan) får "in-view" ----
+(function () {
+  var scroller = document.getElementById('top'), cards = Array.prototype.slice.call(document.querySelectorAll('.card')), cur = null, raf = 0;
+  var head = scroller.querySelector('.page-header'), bottom = scroller.querySelector('.bottom .mini');
+  function update() {
+    raf = 0;
+    var sr = scroller.getBoundingClientRect();
+    var top = head ? head.getBoundingClientRect().bottom : sr.top;
+    var bot = bottom ? bottom.getBoundingClientRect().top : sr.bottom;
+    var mid = (top + bot) / 2, hit = null;
+    for (var i = 0; i < cards.length; i++) {
+      var r = cards[i].getBoundingClientRect();
+      if (r.top <= mid && r.bottom >= mid) { hit = cards[i]; break; }
+    }
+    if (hit !== cur) {
+      if (cur) cur.classList.remove('in-view');
+      if (hit) hit.classList.add('in-view');
+      cur = hit;
+    }
+  }
+  function req() { if (!raf) raf = requestAnimationFrame(update); }
+  scroller.addEventListener('scroll', req, { passive: true });
+  window.addEventListener('resize', req);
+  window.addEventListener('load', req);
+  req();
+})();
+
+// Volymknapp (av/på) på promo-korten
+document.querySelectorAll('.vol-btn').forEach(function (b) {
+  b.addEventListener('click', function (e) {
+    e.stopPropagation();
+    var muted = b.classList.toggle('muted');
+    b.setAttribute('aria-pressed', muted); b.setAttribute('aria-label', muted ? 'Ljud av' : 'Ljud på');
+    b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
+  });
+});
+
+// ---- Minispelaren visar avsnittet som spelas ----
+(function () {
+  var mini = document.querySelector('.mini'); if (!mini) return;
+  var logo = mini.querySelector('.logo32'), labels = mini.querySelector('.mini-labels'), play = mini.querySelector('.mini-btn.play'),
+      pimg = play.querySelector('img:not(.prog)');
+  var orig = { logo: logo.getAttribute('src'), labels: labels.innerHTML, play: pimg.getAttribute('src') }, last = null, loaded = false;
+  var PAUSE = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="#F7F7F8"/></svg>');
+  function coverOf(btn) {
+    var c = btn.closest('.card'); if (!c) return null;
+    var i = c.querySelector('.cover88') || c.querySelector('.promo-cover img');
+    return i ? i.getAttribute('src') : null;
+  }
+  function esc(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+  function show(btn) {
+    var c = coverOf(btn);
+    mini.classList.add('swapping');
+    setTimeout(function () {
+      if (c) { logo.src = c; logo.classList.add('ep'); }
+      labels.innerHTML = '<div class="mini-ep"><span>' + esc(btn.dataset.prog) + '</span><p>' + esc(btn.dataset.title) + '</p></div>';
+      mini.classList.remove('swapping');
+    }, 200);
+  }
+  window.__mini = function (btn, playing) {
+    if (playing) { if (last !== btn || !loaded) show(btn); last = btn; loaded = true; pimg.src = PAUSE; play.setAttribute('aria-label', 'Pausa'); }
+    else { pimg.src = orig.play; play.setAttribute('aria-label', 'Spela'); }
+  };
+  // Play/paus i minispelaren styr kortets knapp
+  play.addEventListener('click', function () { if (loaded && last) last.click(); });
+})();
+</script>
+</body></html>

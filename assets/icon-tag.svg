@@ -1,0 +1,14 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="icon/tag">
+<g id="Rectangle">
+</g>
+<g id="sell">
+<mask id="mask0_0_366" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+<rect id="Bounding box" width="24" height="24" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_0_366)">
+<path id="sell_2" d="M12.4265 20L4 11.5735V4H11.5735L19.9875 12.4391L12.4265 20ZM7.26054 8.28065C7.54339 8.28065 7.78412 8.18165 7.98273 7.98365C8.18134 7.78565 8.28065 7.54523 8.28065 7.26238C8.28065 6.97952 8.18165 6.73879 7.98365 6.54018C7.78565 6.34157 7.54523 6.24227 7.26238 6.24227C6.97952 6.24227 6.73879 6.34127 6.54018 6.53927C6.34157 6.73726 6.24227 6.97769 6.24227 7.26054C6.24227 7.54339 6.34127 7.78412 6.53926 7.98273C6.73726 8.18134 6.97769 8.28065 7.26054 8.28065Z" fill="#3C4C69"/>
+</g>
+</g>
+</g>
+</svg>
